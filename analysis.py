@@ -52,8 +52,8 @@ def plot_data(df, state_list):
         plt.bar(get_date(df, states[key]), incr_change(get_cases(df, states[key]),0), label=key)
         plt.plot(mv_avg, label=key+'_'+str(days)+'-day_mv_avg', color='firebrick')
         set_plot_attr('Dates', 'Increase in cases')
-        fname = 'C:/Users/yukidave' + '/' + key + '_cases.png'
-        plt.savefig(fname)
+        fname = 'C:/Users/yukid/Pictures/' + '/' + key + '_cases.png'
+        #plt.savefig(fname)
         plt.figure(2)
         plt.plot(get_date(df, states[key]),get_cases(df, states[key]), label=key, marker=next(marker))
         set_plot_attr('Dates', 'cases')
@@ -124,10 +124,10 @@ def plot_arima(df, state_list):
         model_fit.plot_predict(dynamic=False)
 
         plt.figure('Forecast')
-        forecast,se,ci = model_fit.forecast(15)
+        forecast,se,ci = model_fit.forecast(14)
 
         print(cases_df.size)
-        idx = range(cases_df.size, cases_df.size + 15)
+        idx = range(cases_df.size, cases_df.size + 14)
         fc_series = pd.Series(forecast, index=idx)
         lower_series = pd.Series(ci[:, 0], index=idx)
         upper_series = pd.Series(ci[:, 1], index=idx)
@@ -137,6 +137,7 @@ def plot_arima(df, state_list):
         plt.fill_between(lower_series.index, lower_series, upper_series,
                          color='k', alpha=.15)
         plt.legend(loc='upper left', fontsize=8)
+        plt.title(key + ' State Cases Forecast for 14 days')
         set_plot_attr('Dates', 'Cases Per Day')
         #residuals.plot(kind='kde')
     return plt
@@ -165,8 +166,8 @@ def plot_auto_arima(df, state_list):
 def run():
     df = pd.read_csv('us-states.csv')
     state_list = ['MA']
-    plot_data(df, state_list).show()
-    #plot_arima(df, state_list).show()
+    #plot_data(df, state_list).show()
+    plot_arima(df, state_list).show()
     #plot_auto_arima(df, state_list)
 
 
